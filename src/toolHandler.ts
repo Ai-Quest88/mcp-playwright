@@ -128,6 +128,9 @@ async function ensureBrowser(browserSettings?: BrowserSettings) {
         }
         resetBrowserState();
       }
+
+      // Read the Chrome executable path from the environment variable
+      const executablePath = process.env.PLAYWRIGHT_CHROME_EXECUTABLE_PATH || undefined; // Fallback to default if not set
       
       console.error(`Launching new ${browserType} browser instance...`);
       
@@ -146,7 +149,7 @@ async function ensureBrowser(browserSettings?: BrowserSettings) {
           break;
       }
       
-      browser = await browserInstance.launch({ headless });
+      browser = await browserInstance.launch({ headless, executablePath });
       currentBrowserType = browserType;
 
       // Add cleanup logic when browser is disconnected
